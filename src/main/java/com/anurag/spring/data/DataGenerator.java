@@ -3,6 +3,7 @@ package com.anurag.spring.data;
 import com.anurag.spring.entity.Customer;
 import com.github.javafaker.Address;
 import com.github.javafaker.Faker;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Component
+@Slf4j
 public class DataGenerator {
     @Value("${data.generator.limit:20}")
     Integer limit;
@@ -20,17 +22,20 @@ public class DataGenerator {
     GeneratedCustomerDataRepository dataRepository;
 
 
-    @Scheduled(fixedDelay = 60 * 1000)
+    @Scheduled(fixedDelay = 120000)
     public void generateData() {
 
-      List<Customer> customerList =  IntStream.rangeClosed(1,limit).mapToObj(value -> generateClientRecord()).toList();
+      List<Customer> customerList =  IntStream.rangeClosed(1,limit).parallel().mapToObj(value -> generateClientRecord()).toList();
       dataRepository.saveAll(customerList);
 
     }
 
     private Customer generateClientRecord() {
+
         Faker faker = new Faker();
+        var name  = faker.name().name();
        Address address =  faker.address();
+        log.info("Enter into generateClientRecord {} ",name);
        return Customer.builder()
                 .age(faker.number().numberBetween(18,100))
                 .email(faker.internet().safeEmailAddress())
@@ -39,8 +44,9 @@ public class DataGenerator {
                 .zip(address.zipCode())
                 .street(address.streetAddress())
                 .landmark(address.streetName())
+               .state(address.state())
                 .phone(faker.phoneNumber().cellPhone())
-                .customerName(faker.name().name())
+                .customerName(name)
                 .build();
     }
 }

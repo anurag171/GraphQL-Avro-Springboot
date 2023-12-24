@@ -12,6 +12,8 @@ spring:
 data:
   generator:
     limit: 3000
+    enabled: false
+
 
 
 

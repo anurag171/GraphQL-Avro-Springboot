@@ -4,7 +4,6 @@ import com.anurag.spring.entity.Customer;
 import com.github.javafaker.Address;
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,12 +17,21 @@ public class DataGenerator {
     @Value("${data.generator.limit:20}")
     Integer limit;
 
-    @Autowired
-    GeneratedCustomerDataRepository dataRepository;
+    @Value("${data.generator.enabled:false}")
+    Boolean enabled;
+
+   private final GeneratedCustomerDataRepository dataRepository;
+
+   public DataGenerator(GeneratedCustomerDataRepository dataRepository){
+       this.dataRepository = dataRepository;
+   }
 
 
     @Scheduled(fixedDelay = 120000)
     public void generateData() {
+
+       if(!enabled)
+           return;
 
       List<Customer> customerList =  IntStream.rangeClosed(1,limit).parallel().mapToObj(value -> generateClientRecord()).toList();
       dataRepository.saveAll(customerList);

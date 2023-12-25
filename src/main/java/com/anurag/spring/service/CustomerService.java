@@ -5,6 +5,10 @@ import com.anurag.spring.data.GeneratedCustomerDataRepository;
 import com.anurag.spring.entity.Customer;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class CustomerService {
 
@@ -14,9 +18,10 @@ public class CustomerService {
     public CustomerService(GeneratedCustomerDataRepository dataRepository){
         this.dataRepository = dataRepository;
     }
-    public Iterable<Customer> getCustomers() {
-
-      return   dataRepository.findAll();
+    public List<Customer> getCustomers() {
+      return   StreamSupport
+              .stream(dataRepository.findAll().spliterator(), false)
+              .collect(Collectors.toList());
 
       // return Arrays.asList().);
     }

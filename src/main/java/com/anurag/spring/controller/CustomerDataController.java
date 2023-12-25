@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/v1/")
@@ -29,9 +27,7 @@ public class CustomerDataController {
 
     @GetMapping("customers")
     public List<CustomerDto> getCustomers(){
-          return  customerMapper.modelsToDtos(StreamSupport
-                  .stream(customerService.getCustomers().spliterator(), false)
-                  .collect(Collectors.toList()));
+          return  customerMapper.modelsToDtos(customerService.getCustomers());
     }
 
 

@@ -5,6 +5,22 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: magic123
+    hikari:
+      connectionTimeout: 2000
+      maximum-pool-size: 20
+      poolName: my-pool
+      maxLifetime: 1000000
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 25
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+        rewriteBatchedStatements: true
+        cacheResultSetMetadata: true
+        cacheServerConfiguration: true
+        elideSetAutoCommits: true
+        maintainTimeStats: false
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,13 +30,19 @@ data:
     limit: 3000
     enabled: false
 
-
-
-
-
-
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+    com:
+      zaxxer:
+          hikari:
+            HikariConfig: DEBUG
 #spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation= true
 #spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.PostgreSQLDialect
-
 # Hibernate ddl auto (create, create-drop, validate, update)
-

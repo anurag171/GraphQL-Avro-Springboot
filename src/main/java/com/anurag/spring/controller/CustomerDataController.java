@@ -1,18 +1,18 @@
 package  com.anurag.spring.controller;
 
 
-import com.anurag.spring.dto.CustomerDto;
 import com.anurag.spring.mapper.CustomerMapper;
 import com.anurag.spring.service.CustomerService;
+import graphql.ExecutionResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/")
+@Slf4j
 public class CustomerDataController {
 
     private final CustomerService customerService;
@@ -26,8 +26,10 @@ public class CustomerDataController {
     }
 
     @GetMapping("customers")
-    public List<CustomerDto> getCustomers(){
-          return  customerMapper.modelsToDtos(customerService.getCustomers());
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> getCustomers(@RequestBody String query){
+       ExecutionResult executionResult = customerService.getGraphQL().execute(query);
+          return  new ResponseEntity<>(executionResult,HttpStatus.OK);
     }
 
 

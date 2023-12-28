@@ -1,0 +1,21 @@
+schema{
+    query: Query
+}
+type Query{
+    allCustomers: [Customer]
+    customer(id:String):Customer
+}
+
+type Customer{
+    id:ID,
+    customerName:String,
+    age:Int,
+    email:String,
+    city:String,
+    country:String,
+    street:String,
+    zip:String,
+    state:String,
+    landmark:String,
+    phone:String
+}

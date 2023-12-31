@@ -1,6 +1,7 @@
 package com.anurag.spring.data;
 
 import com.anurag.spring.entity.Customer;
+import com.anurag.spring.repository.GeneratedCustomerDataRepository;
 import com.github.javafaker.Address;
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ public class DataGenerator {
     @Value("${data.generator.enabled:false}")
     Boolean enabled;
 
+    private int global_number = 0;
+
     private final GeneratedCustomerDataRepository dataRepository;
 
     public DataGenerator(GeneratedCustomerDataRepository dataRepository) {
@@ -27,7 +30,7 @@ public class DataGenerator {
     }
 
 
-    @Scheduled(fixedDelay = 120000)
+    @Scheduled(fixedDelay = 5000)
     public void generateData() {
 
         if (!enabled)
@@ -45,10 +48,12 @@ public class DataGenerator {
         Address address = faker.address();
         log.info("Enter into generateClientRecord {} ", name);
         Customer customer = new Customer();
+        customer.setRecord_number_id(++global_number);
         customer.setAge(faker.number().numberBetween(18, 100));
         customer.setEmail(faker.internet().safeEmailAddress());
         customer.setCity(address.city());
         customer.setCountry(address.country());
+        customer.setCountryCode(address.countryCode());
         customer.setZip(address.zipCode());
         customer.setStreet(address.streetAddress());
         customer.setLandmark(address.streetName());

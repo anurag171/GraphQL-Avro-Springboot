@@ -1,5 +1,6 @@
 schema{
     query: Query
+    mutation: Mutation
 }
 type Query{
     allCustomers: [Customer]
@@ -18,4 +19,8 @@ type Customer{
     state:String,
     landmark:String,
     phone:String
+}
+
+type Mutation{
+    addBalance(amount:Float,accountId:ID,customerId:String,operator:String):Float
 }

@@ -1,6 +1,6 @@
 package com.anurag.spring.service.datafetecher;
 
-import com.anurag.spring.data.GeneratedCustomerDataRepository;
+import com.anurag.spring.repository.GeneratedCustomerDataRepository;
 import com.anurag.spring.entity.Customer;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;

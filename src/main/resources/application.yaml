@@ -26,8 +26,11 @@ spring:
       ddl-auto: update
 
 data:
+  account:
+    generator:
+      enabled: false
   generator:
-    limit: 3000
+    limit: 300
     enabled: false
 
 logging:

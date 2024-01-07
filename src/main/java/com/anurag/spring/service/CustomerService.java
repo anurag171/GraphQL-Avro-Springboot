@@ -1,6 +1,7 @@
 package com.anurag.spring.service;
 
 
+import com.anurag.spring.service.mutation.BalanceMutation;
 import com.anurag.spring.repository.GeneratedCustomerDataRepository;
 import com.anurag.spring.service.datafetecher.AllCustomerDataFetcher;
 import com.anurag.spring.service.datafetecher.CustomerDataFetcher;
@@ -25,12 +26,12 @@ import java.io.IOException;
 @Slf4j
 public class CustomerService {
 
-    @Value("classpath:customer.graphql")
+    @Value("classpath:customer.graphqls")
     Resource resource;
 
 
-    @Getter
-    private GraphQL graphQL;
+//    @Getter
+//    private GraphQL graphQL;
 
     @Autowired
     private AllCustomerDataFetcher allCustomerDataFetcher;
@@ -38,9 +39,12 @@ public class CustomerService {
     @Autowired
     private CustomerDataFetcher customerDataFetcher;
 
+    @Autowired
+    private BalanceMutation balanceMutation;
+
     private final GeneratedCustomerDataRepository dataRepository;
 
-    @PostConstruct
+  /*  @PostConstruct
     private void loadSchema() throws IOException {
         log.info("Entering loadSchema@GraphQLService");
         //Get the graphql file
@@ -50,17 +54,13 @@ public class CustomerService {
         RuntimeWiring runtimeWiring = buildRuntimeWiring();
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
         graphQL = GraphQL.newGraphQL(graphQLSchema).build();
-    }
+    }*/
 
 
     public CustomerService(GeneratedCustomerDataRepository dataRepository){
         this.dataRepository = dataRepository;
     }
-    /*public List<Customer> getCustomers() {
-      return   StreamSupport
-              .stream(dataRepository.findAll().spliterator(), false)
-              .collect(Collectors.toList());
-    }*/
+
 
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()

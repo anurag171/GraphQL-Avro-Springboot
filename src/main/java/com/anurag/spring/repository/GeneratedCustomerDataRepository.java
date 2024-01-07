@@ -12,6 +12,10 @@ public interface GeneratedCustomerDataRepository extends JpaRepository<Customer,
 
     Customer findByRecord_number_id(Integer record_number_id);
 
+    Integer countDistinctByCustomerNameLikeIgnoreCase(String customerName);
+
+    Boolean existsByCustomerNameLikeIgnoreCase(String customerName);
+
 
 
 

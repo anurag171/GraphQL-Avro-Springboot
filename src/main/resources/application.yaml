@@ -1,6 +1,9 @@
 server:
   port: 9060
 spring:
+  graphql:
+    graphiql:
+      enabled: true
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -25,7 +28,10 @@ spring:
     hibernate:
       ddl-auto: update
 
-data:
+
+
+  profiles:
+    active: dev
   account:
     generator:
       enabled: false
@@ -33,19 +39,36 @@ data:
     limit: 300
     enabled: false
 
-logging:
-  level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        type:
-          descriptor:
-            sql:
-              BasicBinder: TRACE
-    com:
-      zaxxer:
-          hikari:
-            HikariConfig: DEBUG
+
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: INFO
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: INFO
+#    com:
+#      zaxxer:
+#          hikari:
+#            HikariConfig: INFO
 #spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation= true
 #spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.PostgreSQLDialect
 # Hibernate ddl auto (create, create-drop, validate, update)
+management:
+  server: localhost
+
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    jmx:
+      exposure:
+        include: "*"

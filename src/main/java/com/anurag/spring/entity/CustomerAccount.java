@@ -1,10 +1,7 @@
 package com.anurag.spring.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
@@ -18,12 +15,13 @@ import java.util.Date;
 @Entity
 @Table(name = "customer_account")
 @NamedQueries({
-        @NamedQuery(name = "CustomerAccount.findByCustomerId", query = "select c from CustomerAccount c where c.customerId = :customerId", lockMode = LockModeType.OPTIMISTIC)
+        @NamedQuery(name = "CustomerAccount.findByCustomerId", query = "select c from CustomerAccount c where c.customerId = ?1", lockMode = LockModeType.OPTIMISTIC)
 })
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class CustomerAccount {
 

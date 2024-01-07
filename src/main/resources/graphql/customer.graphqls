@@ -1,0 +1,43 @@
+schema{
+    query: Query
+    mutation: Mutation
+}
+type Query{
+    allCustomers: [Customer]
+    customer(id:String):Customer
+}
+
+type Customer{
+    id:ID,
+    customerName:String,
+    age:Int,
+    email:String,
+    city:String,
+    country:String,
+    street:String,
+    zip:String,
+    state:String,
+    landmark:String,
+    phone:String
+    record_number_id:Int
+}
+
+type Mutation{
+    operateBalance(balanceRequest: BalanceRequest!):BalanceResponseDto!
+}
+
+input BalanceRequest{
+    customerRecordId: Int
+    accountNumber: String
+    amount: Float!
+    operator: String!
+}
+
+type BalanceResponseDto{
+    customerRecordId: Int!
+    accountNumber: String!
+    amount: Float!
+    operator: String!
+    oldBalance: Float!
+    newBalance: Float!
+}

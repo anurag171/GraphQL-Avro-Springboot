@@ -2,10 +2,7 @@ package com.anurag.spring.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
@@ -21,15 +18,16 @@ import java.util.Date;
         @Index(name = "idx_customer_customer_name", columnList = "customer_name, country")
 })
 @NamedQueries({
-        @NamedQuery(name = "Customer.countDistinctByCustomerNameLikeIgnoreCase", query = "select count(distinct c) from Customer c where upper(c.customerName) like upper(:customerName)", lockMode = LockModeType.OPTIMISTIC),
-        @NamedQuery(name = "Customer.existsByCustomerNameLikeIgnoreCase", query = "select (count(c) > 0) from Customer c where upper(c.customerName) like upper(:customerName)", lockMode = LockModeType.OPTIMISTIC),
+        @NamedQuery(name = "Customer.countDistinctByCustomerNameLikeIgnoreCase", query = "select count(distinct c) from Customer c where c.customerName like ?1", lockMode = LockModeType.OPTIMISTIC),
+        @NamedQuery(name = "Customer.existsByCustomerNameLikeIgnoreCase", query = "select (count(c) > 0) from Customer c where upper(c.customerName) like upper(?1)", lockMode = LockModeType.OPTIMISTIC),
         @NamedQuery(name = "Customer.countDistinctBy", query = "select count(distinct c) from Customer c", lockMode = LockModeType.OPTIMISTIC),
-        @NamedQuery(name = "Customer.findByRecord_number_id", query = "select c from Customer c where c.record_number_id = :record_number_id", lockMode = LockModeType.OPTIMISTIC)
+        @NamedQuery(name = "Customer.findByRecord_number_id", query = "select c from Customer c where c.record_number_id = ?1", lockMode = LockModeType.OPTIMISTIC)
 })
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class Customer {
 

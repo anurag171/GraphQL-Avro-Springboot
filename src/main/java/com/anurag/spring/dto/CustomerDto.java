@@ -9,6 +9,8 @@ public class CustomerDto {
 
     private String customerName;
 
+    private int record_number_id;
+
     private int age;
 
     private String email;

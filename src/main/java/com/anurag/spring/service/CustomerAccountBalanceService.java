@@ -20,9 +20,9 @@ import java.math.BigDecimal;
 @Slf4j
 public class CustomerAccountBalanceService {
 
-    private GeneratedCustomerAccountDataRepository generatedCustomerAccountDataRepository;
+    private final GeneratedCustomerAccountDataRepository generatedCustomerAccountDataRepository;
 
-    private GeneratedCustomerDataRepository generatedCustomerDataRepository;
+    private final GeneratedCustomerDataRepository generatedCustomerDataRepository;
 
     @Autowired
     public CustomerAccountBalanceService(GeneratedCustomerAccountDataRepository generatedCustomerAccountDataRepository,

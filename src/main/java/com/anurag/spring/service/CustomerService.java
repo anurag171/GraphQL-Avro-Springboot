@@ -2,10 +2,6 @@ package com.anurag.spring.service;
 
 
 import com.anurag.spring.repository.GeneratedCustomerDataRepository;
-import com.anurag.spring.service.datafetecher.AllCustomerDataFetcher;
-import com.anurag.spring.service.datafetecher.CustomerDataFetcher;
-import com.anurag.spring.service.mutation.BalanceMutation;
-import graphql.schema.idl.RuntimeWiring;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,14 +17,13 @@ public class CustomerService {
 //    @Getter
 //    private GraphQL graphQL;
 
-    @Autowired
+   /* @Autowired
     private AllCustomerDataFetcher allCustomerDataFetcher;
 
     @Autowired
-    private CustomerDataFetcher customerDataFetcher;
+    private CustomerDataFetcher customerDataFetcher;*/
 
-    @Autowired
-    private BalanceMutation balanceMutation;
+
 
     private final GeneratedCustomerDataRepository dataRepository;
 
@@ -44,18 +39,18 @@ public class CustomerService {
         graphQL = GraphQL.newGraphQL(graphQLSchema).build();
     }*/
 
-
+    @Autowired
     public CustomerService(GeneratedCustomerDataRepository dataRepository){
         this.dataRepository = dataRepository;
     }
 
 
-    private RuntimeWiring buildRuntimeWiring() {
+   /* private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
                         .dataFetcher("allCustomers", allCustomerDataFetcher)
                         .dataFetcher("customer", customerDataFetcher)).
         build();
-    }
+    }*/
 
 }

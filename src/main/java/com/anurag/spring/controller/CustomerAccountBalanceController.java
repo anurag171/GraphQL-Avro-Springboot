@@ -1,6 +1,7 @@
 package com.anurag.spring.controller;
 
 
+import com.anurag.spring.constant.MutationOperator;
 import com.anurag.spring.dto.BalanceRequest;
 import com.anurag.spring.dto.BalanceResponseDto;
 import com.anurag.spring.service.CustomerAccountBalanceService;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 public class CustomerAccountBalanceController {
 
-    private CustomerAccountBalanceService customerAccountBalanceService;
+    private final CustomerAccountBalanceService customerAccountBalanceService;
 
     public CustomerAccountBalanceController(CustomerAccountBalanceService customerAccountBalanceService){
         this.customerAccountBalanceService = customerAccountBalanceService;
@@ -23,15 +24,17 @@ public class CustomerAccountBalanceController {
     public BalanceResponseDto operateBalance(@Argument BalanceRequest balanceRequest){
 
         log.info(" Received request [{}]", balanceRequest.toString());
-        switch (balanceRequest.operator()){
-            case "+" -> {
+       MutationOperator operator = MutationOperator.getMutationOperator(balanceRequest.operator());
+        switch (operator){
+            case ADD -> {
                 return customerAccountBalanceService.addAmount(balanceRequest);
             }
-            case "-" -> {
+            case SUBTRACT -> {
                 return customerAccountBalanceService.subtractAmount(balanceRequest);
             }
+            default -> {
+                return BalanceResponseDto.builder().build();
+            }
         }
-
-       return BalanceResponseDto.builder().build();
     }
 }

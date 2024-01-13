@@ -32,8 +32,8 @@ public class CustomerAccountBalanceService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    @Lock(LockModeType.OPTIMISTIC)
-    public BalanceResponseDto addAmount(BalanceRequest balanceRequest) {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    public BalanceResponseDto deposit(BalanceRequest balanceRequest) {
 
         CustomerAccount customerAccount = checkAndReturnCustomerAccount(balanceRequest);
         if(customerAccount == null)
@@ -49,14 +49,14 @@ public class CustomerAccountBalanceService {
                                 .customerName(customerAccount.getCustomerName())
                                 .customerRecordId(balanceRequest.customerRecordId()).build();
 
-        customerAccount.setBalance(BigDecimal.valueOf(balanceResponseDto.getNewBalance()));
-        generatedCustomerAccountDataRepository.save(customerAccount);
+      //  customerAccount.setBalance(BigDecimal.valueOf(balanceResponseDto.getNewBalance()));
+        generatedCustomerAccountDataRepository.addBalance(customerAccount.getAccountNumber(), customerAccount.getCustomerId(), balanceResponseDto.getAmount() );
         return balanceResponseDto;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    @Lock(LockModeType.OPTIMISTIC)
-    public BalanceResponseDto subtractAmount(BalanceRequest balanceRequest) {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    public BalanceResponseDto withdraw(BalanceRequest balanceRequest) {
         CustomerAccount customerAccount = checkAndReturnCustomerAccount(balanceRequest);
         if(customerAccount == null)
             return BalanceResponseDto.builder().build();
@@ -72,7 +72,7 @@ public class CustomerAccountBalanceService {
                 .customerRecordId(balanceRequest.customerRecordId()).build();
 
         customerAccount.setBalance(BigDecimal.valueOf(balanceResponseDto.getNewBalance()));
-        generatedCustomerAccountDataRepository.save(customerAccount);
+        generatedCustomerAccountDataRepository.subtractBalance(customerAccount.getAccountNumber(), customerAccount.getCustomerId(), balanceResponseDto.getAmount());
         return balanceResponseDto;
     }
 

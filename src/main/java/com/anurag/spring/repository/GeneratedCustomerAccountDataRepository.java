@@ -21,7 +21,7 @@ public interface GeneratedCustomerAccountDataRepository extends JpaRepository<Cu
                     " where account_number = :account_number and customer_id = :customerId"
 
     )
-    public int subtractBalance(String account_number,Integer customerId, Double amount);
+    int subtractBalance(String account_number,Integer customerId, Double amount);
 
     @Transactional
     @Modifying(clearAutomatically = true,flushAutomatically = true)
@@ -31,7 +31,7 @@ public interface GeneratedCustomerAccountDataRepository extends JpaRepository<Cu
                     " where account_number = :account_number and customer_id = :customerId"
 
     )
-    public int addBalance(String account_number,Integer customerId, Double amount);
+    int addBalance(String account_number,Integer customerId, Double amount);
 
 
 }

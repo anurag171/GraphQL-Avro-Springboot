@@ -10,7 +10,7 @@ spring:
     password: magic123
     hikari:
       connectionTimeout: 2000
-      maximum-pool-size: 20
+      maximum-pool-size: 50
       poolName: my-pool
       maxLifetime: 1000000
       data-source-properties:
